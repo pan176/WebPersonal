@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    inetutils:
+      ignored-interfaces: eth.*
+      preferred-networks: 123.57.3.100
+    nacos:
+      discovery:
+        server-addr: 123.57.3.100:8848
+  datasource:
+    username: root
+    password: panhw123456
+  redis:
+    host: 123.57.3.100
+    port: 6379

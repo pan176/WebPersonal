@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  datasource:
+    username: root
+    password: 123
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+logging:
+  level:
+    org.springframework.security: debug

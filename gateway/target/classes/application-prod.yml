@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 123.57.3.100:8848
+    inetutils:
+      ignored-interfaces: eth.*
+      preferred-networks: 123.57.3.100

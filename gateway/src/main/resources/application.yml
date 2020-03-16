@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: dev
+    #    active: prod
+  application:
+    name: gateway
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: BUSINESS-USER
+          uri: lb://business
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        - id: BUSINESS-RESUME
+          uri: lb://business
+          predicates:
+            - Path=/api/resume/**
+          filters:
+            - StripPrefix=1
+        - id: BUSINESS-UPLOAD
+          uri: lb://business
+          predicates:
+            - Path=/api/upload/**
+          filters:
+            - StripPrefix=1
+
+server:
+  port: 8888
