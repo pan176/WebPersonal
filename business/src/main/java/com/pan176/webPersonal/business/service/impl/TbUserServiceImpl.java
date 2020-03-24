@@ -7,28 +7,27 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @Service
 public class TbUserServiceImpl implements TbUserService {
 
     @Resource
-    private TbUserMapper tbUserMapper;
+    private TbUserMapper userMapper;
 
     @Override
-    public TbUser getByUsername(String username) {
+    public TbUser selectByUsername(String username) {
         Example example = new Example(TbUser.class);
         example.createCriteria().andEqualTo("username", username);
 
         // 仅返回一个
-        return tbUserMapper.selectOneByExample(example);
+        return userMapper.selectOneByExample(example);
     }
 
     @Override
     public void update(TbUser user) {
-        TbUser oldUser = getByUsername(user.getUsername());
-        user.setId(oldUser.getId());
+        user.setUpdateTime(new Date());
 
-        // 只更新实体类已设置的属性
-        tbUserMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKey(user);
     }
 }

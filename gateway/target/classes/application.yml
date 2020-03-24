@@ -1,7 +1,7 @@
 spring:
   profiles:
-    active: dev
-    #    active: prod
+    # active: dev
+    active: prod
   application:
     name: gateway
   main:
@@ -28,6 +28,24 @@ spring:
           uri: lb://business
           predicates:
             - Path=/api/upload/**
+          filters:
+            - StripPrefix=1
+        - id: BUSINESS-ROLE
+          uri: lb://business
+          predicates:
+            - Path=/api/role/**
+          filters:
+            - StripPrefix=1
+        - id: BUSINESS-PERMISSION
+          uri: lb://business
+          predicates:
+            - Path=/api/permission/**
+          filters:
+            - StripPrefix=1
+        - id: BUSINESS-ALBUM
+          uri: lb://business
+          predicates:
+            - Path=/api/album/**
           filters:
             - StripPrefix=1
 

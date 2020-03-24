@@ -3,20 +3,19 @@ package com.pan176.webPersonal.business.service;
 
 import com.pan176.webPersonal.business.domain.TbUser;
 
+import java.util.Map;
+
 public interface TbUserService{
     /**
      * 通过用户名得到用户
      * @param username 用户名
      * @return
      */
-    TbUser getByUsername(String username);
+    TbUser selectByUsername(String username);
 
     /**
-     * 根据用户名更新
-     * @param username 用户名
-     * @param path 头像路径
+     * 更新
+     * @param user 用户
      */
     void update(TbUser user);
-
-
 }

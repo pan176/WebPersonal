@@ -33,6 +33,7 @@
 
         <!--Commons -->
         <lombok.version>1.18.8</lombok.version>
+        <pagehelper.version>5.1.4</pagehelper.version>
 
         <!-- Spring Cloud -->
         <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
@@ -97,8 +98,13 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.10.1</version>
+                <version>2.9.10.1</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

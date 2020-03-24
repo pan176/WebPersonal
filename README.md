@@ -1,12 +1,25 @@
-# WebPersonal
 
-# 项目介绍
 
-> 在家没事做？不如跟我一起做网站吧，每天收入0元，我和身边朋友都在做，反正闲着也是闲着
->
-> 网站地址：http://pan176.com  网站文档：http://github.com/pan176/webpersonal_doc
+<p align="center">
+  <img src="https://s1.ax1x.com/2020/03/24/8qy1Ag.png" alt="8qy1Ag.png" border="0" />
+  <br><strong>WebPersonal</strong><br>
+  <strong>程序员怎么能没有自己的网站呢</strong>
+</p>
 
-## 组织结构
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1-17679120076-brightgreen" alt="微信"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-1.0.0.RELEASE-blue" alt="版本"></a>
+</p>
+
+由 **Spring Boot + Spring Security + MyBatis** 等技术实现的个人网站，在家没事做？不如跟我一起做网站吧，每天收入0元，我和身边朋友都在做，反正闲着也是闲着:dog:
+
+演示地址：http://www.pan176.com
+
+项目文档：http://www.pan176.top/webpersonal_doc
+
+前端模板：[Vue Admin Template](https://github.com/PanJiaChen/vue-admin-template)
+
+## 项目结构
 
 ```
 WebPersonal
@@ -15,9 +28,7 @@ WebPersonal
 └── frontend -- 前端界面
 ```
 
-## 技术选型
-
-### 后端技术
+## 后端技术
 
 | 技术                                                         | 说明                        |
 | ------------------------------------------------------------ | --------------------------- |
@@ -34,7 +45,7 @@ WebPersonal
 | [HikariCP](https://github.com/brettwooldridge/HikariCP)      | 数据库连接池                |
 | [Nacos](https://github.com/alibaba/nacos)                    | 注册中心                    |
 
-### 前端技术
+## 前端技术
 
 | 技术                                                         | 说明             |
 | ------------------------------------------------------------ | ---------------- |
@@ -45,9 +56,7 @@ WebPersonal
 | [Element UI](https://element.eleme.io/)                      | 前端 UI 框架     |
 | [Vue Element Admin](https://panjiachen.github.io/vue-element-admin-site/zh/) | 前端模板         |
 
-## 环境搭建
-
-### 开发工具
+## 开发工具
 
 | 工具                                                       | 说明                 |
 | ---------------------------------------------------------- | -------------------- |
@@ -59,7 +68,7 @@ WebPersonal
 | [Postman](https://www.getpostman.com/downloads/)           | HTTP 请求工具        |
 | [亿图图示](https://www.edrawsoft.cn/download-edrawmax.php) | 流程图绘制工具       |
 
-### 开发环境
+## 开发环境
 
 | 工具                                                         | 版本号 |
 | ------------------------------------------------------------ | ------ |
@@ -67,20 +76,6 @@ WebPersonal
 | [MySQL](https://www.mysql.com/)                              | 8.0.17 |
 | [Redis](https://redis.io/download)                           | 5.0.6  |
 
-### 服务规划
+## 效果图
 
-> 本地环境
-
-| 服务  | IP/端口        |
-| ----- | -------------- |
-| Nacos | 127.0.0.1:8848 |
-| MySQL | 127.0.0.1:3306 |
-| Redis | 127.0.0.1:6379 |
-
-> 开发环境
-
-| 服务  | IP/端口      |
-| ----- | ------------ |
-| Nacos | 公网 IP:8848 |
-| MySQL | 公网 IP:3306 |
-| Redis | 公网 IP:6379 |
+![8qf7o6.jpg](https://s1.ax1x.com/2020/03/24/8qf7o6.jpg)

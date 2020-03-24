@@ -8,23 +8,25 @@ import com.pan176.webPersonal.business.util.OkHttpClientUtil;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -55,6 +57,7 @@ public class UserController {
 
         // 2. 查询是否已登录
         UserDetails user = userDetailsService.loadUserByUsername(username);
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 
         //  用户不存在或密码错误
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
@@ -65,9 +68,9 @@ public class UserController {
         Map<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        params.put("grant_type", "password");
-        params.put("client_id", "client");
-        params.put("client_secret", "secret");
+        params.put("grant_type", "grant_type");
+        params.put("client_id", "client_id");
+        params.put("client_secret", "client_secret");
 
         // 4. 返回 Token
         Map<String, Object> result = new HashMap<>();
@@ -89,12 +92,20 @@ public class UserController {
      */
     @GetMapping("getInfo")
     public ResponseResult<Map<String, Object>> getInfo() {
-        TbUser user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        TbUser user = userService.selectByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List roles = new ArrayList<String>();
+        for (GrantedAuthority authority : authorities) {
+            roles.add(authority.getAuthority());
+        }
 
         // 封装数据
         Map<String, Object> map = new HashMap<>();
         map.put("name", user.getUsername());
         map.put("avatar", user.getIcon());
+        map.put("roles", roles);
+        map.put("email", user.getEmail());
         map.put("user", user);
 
         return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "获取用户信息", map);
@@ -123,7 +134,7 @@ public class UserController {
      * @return
      */
     @PostMapping("update")
-    @PreAuthorize("hasRole('SYSTEM')")
+    @PreAuthorize("hasAnyAuthority('SYSTEM', 'EDITOR')")
     public ResponseResult<Map> update(@RequestBody TbUser user) {
         userService.update(user);
 

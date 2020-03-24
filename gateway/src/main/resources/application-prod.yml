@@ -1,8 +1,0 @@
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 公网 IP:8848
-    inetutils:
-      ignored-interfaces: eth.*
-      preferred-networks: 公网 IP

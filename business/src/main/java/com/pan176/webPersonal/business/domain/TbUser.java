@@ -11,6 +11,7 @@ public class TbUser implements Serializable {
     /**
      * ID
      */
+    @Id
     @Column(name = "id")
     private Long id;
 

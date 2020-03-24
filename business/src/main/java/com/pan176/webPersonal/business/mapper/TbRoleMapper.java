@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.MyMapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TbRoleMapper extends MyMapper<TbRole> {
 

@@ -1,7 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
   profiles:
     active: dev
-#    active: prod
   application:
     name: business
   main:
@@ -30,7 +32,7 @@ spring:
         max-active: 8
 
 server:
-  port: 9001
+  port: 端口号
 
 mybatis:
   type-aliases-package: com.pan176.webPersonal.business.domain
