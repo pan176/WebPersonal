@@ -63,11 +63,11 @@
 
 ## 技术支持
 
-**后端：**Spring Boot、Spring Cloud、Spring Security、Nacos、TkMybatis、HikariCP、OkHttp3、Jackson、Lombok、Docker
+**后端**：Spring Boot、Spring Cloud、Spring Security、Nacos、TkMybatis、HikariCP、OkHttp3、Jackson、Lombok、Docker
 
-**前端：**Vue、Axios、Element UI、Vue Element Admin
+**前端**：Vue、Axios、Element UI、Vue Element Admin
 
-**环境：**JDK 1.8、MySQL 8.0.17、Redis 5.0.6
+**环境**：JDK 1.8、MySQL 8.0.17、Redis 5.0.6
 
 ## 项目结构
 
