@@ -13,11 +13,11 @@
 
 由 **Spring Boot + Spring Security + MyBatis** 等技术实现的个人网站，在家没事做？不如跟我一起做网站吧，每天收入0元，我和身边朋友都在做，反正闲着也是闲着:dog:
 
-**演示地址：**http://www.pan176.com
+**演示地址**：http://www.pan176.com
 
-**项目文档：**http://www.pan176.top/webpersonal_doc
+**项目文档**：http://www.pan176.top/webpersonal_doc
 
-**前端模板：**[Vue Admin Template](https://github.com/PanJiaChen/vue-admin-template)
+**前端模板**：[Vue Admin Template](https://github.com/PanJiaChen/vue-admin-template)
 
 ## 本地部署
 
