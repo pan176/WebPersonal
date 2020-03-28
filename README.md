@@ -3,8 +3,6 @@
   <br><strong>WebPersonal</strong><br>
   <strong>程序员怎么能没有自己的网站呢</strong>
 </p>
-
-
 <p align="center">
   <a href="#"><img src="https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1-17679120076-brightgreen" alt="微信"></a>
   <a href="#"><img src="https://img.shields.io/badge/version-1.0.0.RELEASE-blue" alt="版本"></a>
