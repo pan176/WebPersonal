@@ -16,7 +16,9 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()
 
   // set page title
-  document.title = getPageTitle(to.meta.title)
+  document.addEventListener('visibilitychange', function() {
+    document.title = document.hidden ? '你别走吖Σ(っ °Д °;)っ' : getPageTitle(to.meta.title)
+  })
 
   // 确定用户是否已登录
   const hasToken = getToken()

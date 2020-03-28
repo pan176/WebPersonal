@@ -18,9 +18,9 @@
 
 <script>
 import MarkdownEditor from '@/components/MarkdownEditor'
+import checkPermission from '@/utils/permission'
 
 import { update, resume } from '@/api/resume'
-import checkPermission from '@/utils/permission'
 
 export default {
   name: 'MarkdownDemo',
@@ -47,7 +47,6 @@ export default {
   methods: {
     checkPermission,
     fetchData() {
-      // 获得简历内容
       resume().then(response => {
         this.content = response.data.content
       })
@@ -61,8 +60,6 @@ export default {
           message: response.message,
           type: 'success'
         })
-
-        this.fetchData()
       }).catch(() => {
         this.$router.push({
           path: `/403`
@@ -76,8 +73,5 @@ export default {
 <style scoped>
 .editor-container{
   margin-bottom: 30px;
-}
-.tag-title{
-  margin-bottom: 5px;
 }
 </style>

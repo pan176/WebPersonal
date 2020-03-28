@@ -10,7 +10,7 @@ public interface TbRolePermissionService{
      * @param roleId
      * @param permissionList
      */
-    void insert(Long roleId, List<Integer> permissionList);
+    void insert(Long roleId, List<Long> permissionList);
 
     /**
      * 根据角色 ID删除

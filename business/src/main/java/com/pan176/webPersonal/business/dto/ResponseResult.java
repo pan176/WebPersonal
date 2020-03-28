@@ -5,9 +5,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 通用返回类
+ * 通用返回结果
+ * <p>Title: ResponseResult</p>
+ * <p>Description: </p>
  *
- * @param <T>
+ * @author pan176
+ * @version 1.0.0
+ * @date 2020/3/26 14:21
  */
 @Data
 public class ResponseResult<T> implements Serializable {

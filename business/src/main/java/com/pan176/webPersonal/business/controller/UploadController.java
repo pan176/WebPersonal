@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 上传文件服务
+ * 云服务
  * <p>Title: UploadController</p>
  * <p>Description: </p>
  *
@@ -30,7 +30,7 @@ import java.util.UUID;
 @RequestMapping(value = "upload")
 public class UploadController {
     /**
-     * 相关配置参数
+     * 阿里云相关配置参数
      */
     private static final String ENDPOINT = "ENDPOINT";
     private static final String BUCKET_NAME = "BUCKET_NAME";
@@ -38,52 +38,60 @@ public class UploadController {
     private static final String ACCESS_KEY_SECRET = "ACCESS_KEY_SECRET";
 
     /**
-     * 文件上传
-     *
-     * @param multipartFile @{code MultipartFile}
-     * @return {@link ResponseResult<Map<String, String>>} 文件上传路径
+     * 上传图片
+     * @param multipartFile 图片
+     * @param folder 文件夹名
+     * @return 图片地址
      */
     @PostMapping(value = "")
     @PreAuthorize("hasAnyAuthority('SYSTEM', 'EDITORY')")
     public ResponseResult<Map<String, String>> upload(MultipartFile multipartFile, String folder) {
-        // 1. 得到文件名、后缀、再随机生成新名字
+        // 得到文件名、后缀、再随机生成新名字
         String fileName = multipartFile.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String suffix = null;
+        if (fileName != null) {
+            suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        }
         String newName = UUID.randomUUID() + "." + suffix;
 
-        // 2. 创建客户端上传文件
+        // 创建客户端上传文件
         OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
         try {
             client.putObject(new PutObjectRequest(BUCKET_NAME, folder + "/" + newName, new ByteArrayInputStream(multipartFile.getBytes())));
 
-            Map<String, String> map = new HashMap<>();
-            map.put("path", "http://" + BUCKET_NAME + "." + ENDPOINT + "/" + folder + "/" + newName);
-            // 上传文件路径 = http://BUCKET_NAME.ENDPOINT/自定义路径/fileName
-            // 返回路径
-            return new ResponseResult<Map<String, String>>(ResponseResult.CodeStatus.FAIL, "文件上传成功", map);
+            Map<String, String> result = new HashMap<>();
+            result.put("path", "http://" + BUCKET_NAME + "." + ENDPOINT + "/" + folder + "/" + newName);
+            return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "上传成功", result);
         } catch (IOException e) {
-            return new ResponseResult<Map<String, String>>(ResponseResult.CodeStatus.FAIL, "文件上传失败，请重试");
+            return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "上传失败，请重试");
         } finally {
+            // 关闭客户端
             client.shutdown();
         }
     }
 
+    /**
+     * 删除图片
+     * @param path
+     * @return
+     */
     @GetMapping("delete")
     @PreAuthorize("hasAnyAuthority('SYSTEM')")
     public ResponseResult<Void> delete(String path) {
-        // 1. 创建客户端上传文件
+        // 创建客户端上传文件
         OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
         try {
-            // 2. 删除文件
+            // 删除文件
             String objectName = path.substring(path.lastIndexOf("/album") + 1);
             client.deleteObject(BUCKET_NAME, objectName);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "文件删除失败，请重试");
+            return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "删除失败，请重试");
         } finally {
-            // 关闭OSSClient。
+            // 关闭客户端
             client.shutdown();
         }
-        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "文件删除成功");
+
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "删除成功");
     }
 }

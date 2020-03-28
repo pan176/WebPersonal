@@ -1,12 +1,11 @@
 <template>
   <div class="components-container">
     <div class="viewer-wrapper">
-
       <div class="post">
         <div class="user-block">
           <img class="img-circle" :src="'https://myshopsite.oss-cn-hangzhou.aliyuncs.com/avatar/3c4e671b-4ebc-4187-b379-441d8bebc86d.png'">
           <span class="username text-muted">滑稽.jpg</span>
-          <span class="description">图片共 {{images.length}} 张</span>
+          <span class="description">图片共 {{ images.length }} 张</span>
         </div>
         <img-inputer
           v-if="checkPermission(['SYSTEM', 'EDITOR'])"
@@ -30,13 +29,13 @@
             <img
               class="image"
               :src="src"
-            >
+              alt="图片">
             <span class="mask">
               <span class="mask-icon">
-                <i class="el-icon-search" @click="show(index)" />
+                <i class="el-icon-search" @click="show(index)"></i>
               </span>
               <span class="mask-icon delete">
-                <i class="el-icon-delete" @click="del(index, src)" />
+                <i class="el-icon-delete" @click="del(index, src)"></i>
               </span>
             </span>
           </div>
@@ -47,11 +46,13 @@
 </template>
 
 <script>
-import ImgInputer from 'vue-img-inputer'
-import 'vue-img-inputer/dist/index.css'
-import 'viewerjs/dist/viewer.css'
 import { add, list, del, aliyunDel } from '../../api/album'
 import { getToken } from '../../utils/auth'
+
+import 'vue-img-inputer/dist/index.css'
+import 'viewerjs/dist/viewer.css'
+
+import ImgInputer from 'vue-img-inputer'
 import checkPermission from '@/utils/permission'
 
 export default {
@@ -70,7 +71,6 @@ export default {
     this.fetchData()
   },
   methods: {
-    checkPermission,
     fetchData() {
       list().then(response => {
         this.images = response.data
@@ -82,16 +82,12 @@ export default {
       })
     },
     onSuccess(success, file) {
-      console.log('onSuccess -> file', file)
-      console.log('onSuccess -> success', success)
-      // 成功后添加到数据库
       add({
         path: success.data.path
       })
       this.images.push(success.data.path)
     },
     show(index) {
-      console.log(index)
       this.$viewer.view(index)
     },
     del(index, src) {
@@ -115,7 +111,8 @@ export default {
     },
     inited(viewer) {
       this.$viewer = viewer
-    }
+    },
+    checkPermission
   }
 }
 </script>
@@ -127,7 +124,6 @@ export default {
     right: 20px;
   }
   .user-block {
-
     .username,
     .description {
       display: block;
@@ -182,8 +178,7 @@ export default {
   }
   .image-wrapper {
     position: relative;
-    width: 400px;
-    height: 225px;
+    width: 24%;
     border-radius: 5px;
     overflow: hidden;
     display: inline-block;
@@ -209,9 +204,11 @@ export default {
     opacity: 1;
   }
   .mask-icon {
+    position: relative;
+    top: 46%;
     display: inline-block;
-    font-size: 25px;
-    margin: 100px 60px;
+    padding: 0 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
   }
   .mask-icon:hover {

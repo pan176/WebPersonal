@@ -2,12 +2,12 @@
   <div v-loading.fullscreen.lock="fullscreenLoading" class="main-article" element-loading-text="Efforts to generate PDF">
     <div class="article__heading">
       <div class="article__heading__title">
-        潘宏伟的个人简历
+        个人简历
       </div>
     </div>
 
     <markdown-editor ref="markdownEditor" v-model="content" height="auto" hidden />
-    <div ref="html" class="node-article-content" v-html="html" />
+    <div ref="html" class="node-article-content" v-html="html"></div>
   </div>
 </template>
 
@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     fetchData() {
-      // 获得简历内容
       resume().then(response => {
         this.content = response.data.content
       })
@@ -38,7 +37,6 @@ export default {
         this.html = this.$refs.markdownEditor.getHtml()
         this.fullscreenLoading = false
         this.$nextTick(() => {
-          console.log(this.html)
           window.print()
         })
       }, 3000)

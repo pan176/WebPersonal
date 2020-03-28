@@ -1,12 +1,12 @@
 package com.pan176.webPersonal.business.controller;
 
 import com.pan176.webPersonal.business.domain.TbUser;
+import com.pan176.webPersonal.business.dto.LoginParam;
 import com.pan176.webPersonal.business.dto.ResponseResult;
 import com.pan176.webPersonal.business.service.TbUserService;
 import com.pan176.webPersonal.business.util.MapperUtils;
 import com.pan176.webPersonal.business.util.OkHttpClientUtil;
 import okhttp3.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,118 +29,133 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 用户管理
+ * <p>Title: UserController</p>
+ * <p>Description: </p>
+ *
+ * @author pan176
+ * @version 1.0.0
+ * @date 2020/3/26 14:36
+ */
 @RestController
 @RequestMapping("user")
 public class UserController {
     @Resource(name = "userDetailsServiceBean")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TbUserService userService;
+    private final TbUserService userService;
 
-    @Autowired
-    private TokenStore tokenStore;
+    private final TokenStore tokenStore;
+
+    public UserController(BCryptPasswordEncoder passwordEncoder, TbUserService userService, TokenStore tokenStore) {
+        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
+        this.tokenStore = tokenStore;
+    }
 
     /**
-     * 登录
+     * 用户登录
      * @param param 登录参数（username:用户名 password:密码）
      * @return 返回 token
      */
     @PostMapping("login")
-    public ResponseResult<Map<String, Object>> login(@RequestBody Map<String, String> param) {
-        // 1. 取出参数
-        String username = param.get("username");
-        String password = param.get("password");
+    public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam param) {
+        // 取出参数
+        String username = param.getUsername();
+        String password = param.getPassword();
 
-        // 2. 查询是否已登录
+        // 是否已登录
         UserDetails user = userDetailsService.loadUserByUsername(username);
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 
-        //  用户不存在或密码错误
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        // 密码不匹配
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("管理员账号密码错误");
         }
 
-        // 3. 封装参数
+        // 封装参数
         Map<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        params.put("grant_type", "grant_type");
-        params.put("client_id", "client_id");
-        params.put("client_secret", "client_secret");
+        params.put("grant_type", "password");
+        params.put("client_id", "client");
+        params.put("client_secret", "secret");
 
-        // 4. 返回 Token
+        // 得到 Token，封装返回结果
         Map<String, Object> result = new HashMap<>();
         try {
             Response response = OkHttpClientUtil.getInstance().postData("http://127.0.0.1:9001/oauth/token", params);
-            Map<String, Object> map = MapperUtils.json2map(response.body().string());
-            String token = String.valueOf(map.get("access_token"));
-            result.put("token", token);
+            if (response.body() != null) {
+                Map<String, Object> map = MapperUtils.json2map(response.body().string());
+                String token = String.valueOf(map.get("access_token"));
+                result.put("token", token);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "登录失败");
         }
 
-        return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "登录成功", result);
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功", result);
     }
 
     /**
-     * 登录后获得用户信息
-     * @return 用户信息
+     * 用户信息
+     * @return
      */
     @GetMapping("getInfo")
     public ResponseResult<Map<String, Object>> getInfo() {
+        // 获取角色
         TbUser user = userService.selectByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        List roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
         for (GrantedAuthority authority : authorities) {
             roles.add(authority.getAuthority());
         }
 
-        // 封装数据
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", user.getUsername());
-        map.put("avatar", user.getIcon());
-        map.put("roles", roles);
-        map.put("email", user.getEmail());
-        map.put("user", user);
+        // 封装返回结果
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", user);
+        result.put("roles", roles);
+        result.put("name", user.getUsername());
+        result.put("avatar", user.getIcon());
+        result.put("email", user.getEmail());
 
-        return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "获取用户信息", map);
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "获取用户信息", result);
     }
 
 
     /**
-     * 注销
+     * 用户注销
      * @param request
      * @return
      */
     @PostMapping("logout")
     public ResponseResult<Void> logout(HttpServletRequest request) {
-        // 从请求中拿到 Token
+        // 获取 Token
         String token = request.getParameter("access_token");
 
-        // 再从 tokenStore 中删除
+        // 删除 Token
         OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
         tokenStore.removeAccessToken(oAuth2AccessToken);
-        return new ResponseResult<Void>(ResponseResult.CodeStatus.OK, "用户已注销");
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "用户已注销");
     }
 
     /**
-     * 更新用户
+     * 用户更新
      * @param user
      * @return
      */
     @PostMapping("update")
     @PreAuthorize("hasAnyAuthority('SYSTEM', 'EDITOR')")
-    public ResponseResult<Map> update(@RequestBody TbUser user) {
+    public ResponseResult<Map<String, Object>> update(@RequestBody TbUser user) {
         userService.update(user);
 
-        // 封装返回对象
-        Map map = new HashMap<>();
-        map.put("path", user.getIcon());
-        return new ResponseResult<Map>(ResponseResult.CodeStatus.OK, "更新用户成功", map);
+        // 封装返回结果
+        Map<String, Object> result = new HashMap<>();
+        result.put("path", user.getIcon());
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新用户成功", result);
     }
 }

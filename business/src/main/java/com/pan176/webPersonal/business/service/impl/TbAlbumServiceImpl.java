@@ -1,12 +1,12 @@
 package com.pan176.webPersonal.business.service.impl;
 
 import com.pan176.webPersonal.business.domain.TbAlbum;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.pan176.webPersonal.business.mapper.TbAlbumMapper;
 import com.pan176.webPersonal.business.service.TbAlbumService;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service

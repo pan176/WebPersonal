@@ -58,11 +58,11 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/home',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      path: 'home',
+      name: 'Home',
+      component: () => import('@/views/home/index'),
       meta: { title: '主页', icon: 'index' }
     }]
   },
@@ -91,12 +91,12 @@ export const constantRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/role',
+    redirect: '/permission/index',
     children: [
       {
         path: 'role',
         name: 'Role',
-        component: () => import('@/views/permission/role'),
+        component: () => import('@/views/permission/index'),
         meta: { title: '权限管理', icon: 'lock' }
       }
     ]
@@ -111,7 +111,7 @@ export const constantRoutes = [
         path: 'album',
         name: 'Album',
         component: () => import('@/views/album/index'),
-        meta: { title: '放松一下', icon: 'album' }
+        meta: { title: '图片管理', icon: 'album' }
       }
     ]
   },

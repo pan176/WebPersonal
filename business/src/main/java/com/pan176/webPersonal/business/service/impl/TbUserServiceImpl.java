@@ -28,6 +28,6 @@ public class TbUserServiceImpl implements TbUserService {
     public void update(TbUser user) {
         user.setUpdateTime(new Date());
 
-        userMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

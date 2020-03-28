@@ -1,9 +1,8 @@
 <template>
-  <div :id="id" />
+  <div :id="id"></div>
 </template>
 
 <script>
-// deps for editor
 import 'codemirror/lib/codemirror.css' // codemirror
 import 'tui-editor/dist/tui-editor.css' // editor ui
 import 'tui-editor/dist/tui-editor-contents.css' // editor content
@@ -43,7 +42,7 @@ export default {
     language: {
       type: String,
       required: false,
-      default: 'en_US' // https://github.com/nhnent/tui.editor/tree/master/src/js/langs
+      default: 'en_US'
     }
   },
   data() {

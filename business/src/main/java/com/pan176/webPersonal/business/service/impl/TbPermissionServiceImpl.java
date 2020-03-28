@@ -1,13 +1,12 @@
 package com.pan176.webPersonal.business.service.impl;
 
 
-import javax.annotation.Resource;
-
 import com.pan176.webPersonal.business.domain.TbPermission;
 import com.pan176.webPersonal.business.mapper.TbPermissionMapper;
 import com.pan176.webPersonal.business.service.TbPermissionService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

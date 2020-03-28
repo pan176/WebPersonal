@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '潘宏伟的个人网站',
+  title: 'WebPersonal',
 
   /**
    * @type {boolean} true | false

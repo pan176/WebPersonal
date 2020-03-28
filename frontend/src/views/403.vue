@@ -13,7 +13,7 @@
         <ul class="list-unstyled">
           <li>或者你可以去:</li>
           <li class="link-type">
-            <router-link to="/dashboard">
+            <router-link to="/">
               回主页
             </router-link>
           </li>
@@ -24,7 +24,7 @@
         </ul>
       </el-col>
       <el-col :span="12">
-        <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream.">
+        <img :src="errGif" width="313" height="428" alt="那个女孩的冰淇淋掉了">
       </el-col>
     </el-row>
     <el-dialog :visible.sync="dialogVisible" title="随便看">
@@ -48,7 +48,7 @@ export default {
   methods: {
     back() {
       if (this.$route.query.noGoBack) {
-        this.$router.push({ path: '/dashboard' })
+        this.$router.push({ path: '/' })
       } else {
         this.$router.go(-1)
       }

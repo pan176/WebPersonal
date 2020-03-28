@@ -1,7 +1,8 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" />
 
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">欢 迎 登 录</h3>
       </div>
@@ -53,17 +54,17 @@
       </div>
     </el-form>
 
-    <footer>
-      <p class="weak">备案号：<a href="http://www.beian.miit.gov.cn/" target="_blank">赣 ICP 备 20003364 号</a></p>
-      <p class="weak">© Copyright 2020 潘宏伟 - All Rights Reserved</p>
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from '@/components/Footer'
+import GithubCorner from '@/components/GithubCorner'
 
 export default {
   name: 'Login',
+  components: { Footer, GithubCorner },
   data() {
     const validateUsername = (rule, value, callback) => {
       // 判断是否为空
@@ -82,8 +83,8 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'editor',
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -125,7 +126,7 @@ export default {
             this.loading = false
           })
         } else {
-          console.log('提交失败!!')
+          console.log('登录失败，请重试')
           return false
         }
       })
@@ -135,9 +136,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
@@ -242,19 +240,5 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
-}
-
-footer {
-  position: absolute;
-  color: white;
-  bottom: 1em;
-  width: 100%;
-}
-footer p {
-  text-align: center;
-}
-footer p.weak {
-  font-size: 14px;
-  opacity: .6;
 }
 </style>
