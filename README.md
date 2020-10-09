@@ -12,7 +12,7 @@
 
 **演示地址**：http://www.pan176.com
 
-**项目文档**：http://www.pan176.top/webpersonal_doc
+**项目文档**：https://pan176.github.io/webpersonal_doc
 
 **前端模板**：[Vue Admin Template](https://github.com/PanJiaChen/vue-admin-template)
 
