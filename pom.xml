@@ -33,7 +33,7 @@
 
         <!--Commons -->
         <lombok.version>1.18.8</lombok.version>
-        <pagehelper.version>5.1.4</pagehelper.version>
+        <pagehelper.version>5.3.1</pagehelper.version>
 
         <!-- Spring Cloud -->
         <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
